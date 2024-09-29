@@ -15,10 +15,12 @@ public class FenceBuilder : MonoBehaviour
     private void OnEnable()
     {
         OnSettingsChanged += Redraw;
+        ReactHandler.OnAddFence += AddFence;
     }
     private void OnDisable()
     {
         OnSettingsChanged -= Redraw;
+        ReactHandler.OnAddFence -= AddFence;
     }
 
     // for debugging purposes in editor
@@ -35,22 +37,21 @@ public class FenceBuilder : MonoBehaviour
     /// <summary>
     /// Adds a new fence to the fence list.
     /// </summary>
-    /// <param name="angle">Interior angle of the fence</param>
-    /// <param name="length">Length of the fence in metres.</param>
-    public void AddFence(float angle, float length)
+    /// <param name="fence">Fence object to add</param>
+    public void AddFence(Fence fence)
     {
         // basic error checking
-        if (angle < 0f || angle > 180f)
+        if (fence.angle < 0f || fence.angle > 180f)
         {
-            Debug.LogWarning($"User tried to input invalid angle values, expected value should be between 0 to 180. Got {angle}.");
+            Debug.LogWarning($"User tried to input invalid angle values, expected value should be between 0 to 180. Got {fence.angle}.");
             return; // ignore invalid inputs
         }
-        if (length < 0f)
+        if (fence.length < 0f)
         {
             Debug.LogWarning("Length cannot be negative!");
             return;
         }
-        fenceList.Add(new Fence(angle, length));
+        fenceList.Add(fence);
         OnSettingsChanged?.Invoke();
     }
 
