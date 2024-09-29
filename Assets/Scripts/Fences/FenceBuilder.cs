@@ -64,7 +64,7 @@ public class FenceBuilder : MonoBehaviour
     /// <param name="fenceIndex">Index of the fence to remove</param>
     public void RemoveFence(int fenceIndex)
     {
-        if (fenceIndex > fenceList.Count || fenceIndex < 0)
+        if (fenceIndex >= fenceList.Count || fenceIndex < 0)
         {
             Debug.LogWarning($"Invalid fence index! Got {fenceIndex}.");
             return;

@@ -16,7 +16,6 @@ public class ReactHandler : MonoBehaviour
 
     public void RemoveFence(string jsonMsg)
     {
-        // TODO - remove fence
         var fenceObj = JsonUtility.FromJson<FenceID>(jsonMsg);
         OnRemoveFence?.Invoke(fenceObj.fenceID);
     }

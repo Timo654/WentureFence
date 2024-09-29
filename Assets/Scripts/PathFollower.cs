@@ -13,6 +13,7 @@ public class PathFollower : MonoBehaviour
     private void OnEnable()
     {
         FenceBuilder.OnRedrawFinished += UpdateTargetPos;
+        UpdateTargetPos();
     }
 
     private void OnDisable()
