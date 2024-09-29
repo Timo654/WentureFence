@@ -8,7 +8,12 @@ public class ReactHandler : MonoBehaviour
     public static event Action<Fence> OnAddFence;
     public static event Action<Fence> OnUpdateFence;
     public static event Action<Fence> OnRemoveFence;
-
+    private void Awake()
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    WebGLInput.captureAllKeyboardInput = false;
+#endif
+    }
     public void AddFence(string jsonMsg)
     {
         var fenceObj = JsonUtility.FromJson<Fence>(jsonMsg);
