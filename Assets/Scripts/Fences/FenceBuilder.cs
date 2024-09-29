@@ -8,19 +8,22 @@ using UnityEngine;
 public class FenceBuilder : MonoBehaviour
 {
     [SerializeField] private GameObject fencePrefab; // it would be possible to make a system for multiple fence types, but that's out of the scope for now
-    public List<Fence> fenceList;
+    public List<Fence> fenceList; // public only for testing purposes
     private static event Action OnSettingsChanged;
+    public static event Action OnRedrawFinished;
 
     // not sure if this is a good idea, but I'll do this for now.
     private void OnEnable()
     {
         OnSettingsChanged += Redraw;
         ReactHandler.OnAddFence += AddFence;
+        ReactHandler.OnRemoveFence += RemoveFence;
     }
     private void OnDisable()
     {
         OnSettingsChanged -= Redraw;
         ReactHandler.OnAddFence -= AddFence;
+        ReactHandler.OnRemoveFence -= RemoveFence;
     }
 
     // for debugging purposes in editor
@@ -105,5 +108,6 @@ public class FenceBuilder : MonoBehaviour
                 transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+        OnRedrawFinished?.Invoke();
     }
 }
