@@ -4,7 +4,7 @@ using UnityEngine;
 public class ReactHandler : MonoBehaviour
 {
     public GameObject mainCamera;
-    public GameObject targetCamera;
+    public GameObject followerCamera;
     public static event Action<Fence> OnAddFence;
     public static event Action<int> OnRemoveFence;
 
@@ -24,7 +24,7 @@ public class ReactHandler : MonoBehaviour
     public void ChangeCameraMode(string jsonMsg)
     {
         mainCamera.SetActive(!mainCamera.activeSelf);
-        targetCamera.SetActive(!targetCamera.activeSelf);
+        followerCamera.SetActive(!followerCamera.activeSelf);
     }
 }
 
