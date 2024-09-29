@@ -6,7 +6,8 @@ public class ReactHandler : MonoBehaviour
     public GameObject mainCamera;
     public GameObject followerCamera;
     public static event Action<Fence> OnAddFence;
-    public static event Action<int> OnRemoveFence;
+    public static event Action<Fence> OnUpdateFence;
+    public static event Action<Fence> OnRemoveFence;
 
     public void AddFence(string jsonMsg)
     {
@@ -14,10 +15,16 @@ public class ReactHandler : MonoBehaviour
         OnAddFence?.Invoke(fenceObj);
     }
 
+    public void UpdateFence(string jsonMsg)
+    {
+        var fenceObj = JsonUtility.FromJson<Fence>(jsonMsg);
+        OnUpdateFence?.Invoke(fenceObj);
+    }
+
     public void RemoveFence(string jsonMsg)
     {
-        var fenceObj = JsonUtility.FromJson<FenceID>(jsonMsg);
-        OnRemoveFence?.Invoke(fenceObj.fenceID);
+        var fenceObj = JsonUtility.FromJson<Fence>(jsonMsg);
+        OnRemoveFence?.Invoke(fenceObj);
     }
 
     public void ChangeCameraMode(string jsonMsg)
@@ -25,11 +32,4 @@ public class ReactHandler : MonoBehaviour
         mainCamera.SetActive(!mainCamera.activeSelf);
         followerCamera.SetActive(!followerCamera.activeSelf);
     }
-}
-
-// only exists for JSON purposes
-[Serializable]
-public class FenceID
-{
-    public int fenceID;
 }

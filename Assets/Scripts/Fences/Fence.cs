@@ -7,6 +7,7 @@ using UnityEngine;
 [Serializable]
 public class Fence
 {
+    public int fenceID = -1; // only used when updating/removing elements. -1 is unspecified
     [Range(0f, 180f)] public float angle = 180f;
     public float length = 1f;
 

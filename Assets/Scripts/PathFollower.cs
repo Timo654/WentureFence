@@ -41,7 +41,7 @@ public class PathFollower : MonoBehaviour
 
         if (reachedTarget)
         {
-            targetPos = AdjustPosition(Helper.CalculateEndPosition(targetObject));        
+            targetPos = AdjustPosition(Helper.CalculateEndPosition(targetObject));
         }
         else
         {

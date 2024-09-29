@@ -17,15 +17,21 @@ public class FenceBuilder : MonoBehaviour
     {
         OnSettingsChanged += Redraw;
         ReactHandler.OnAddFence += AddFence;
+        ReactHandler.OnUpdateFence += UpdateFence;
         ReactHandler.OnRemoveFence += RemoveFence;
     }
     private void OnDisable()
     {
         OnSettingsChanged -= Redraw;
         ReactHandler.OnAddFence -= AddFence;
+        ReactHandler.OnUpdateFence -= UpdateFence;
         ReactHandler.OnRemoveFence -= RemoveFence;
     }
 
+    private void Awake()
+    {
+        if (!Application.isEditor) fenceList = new List<Fence>(); // empty the list just in case we forgot something in while testing
+    }
     // for debugging purposes in editor
     void Update()
     {
@@ -59,17 +65,32 @@ public class FenceBuilder : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the specified fence with new values.
+    /// </summary>
+    /// <param name="fenceIndex">Index of the fence to update</param>
+    public void UpdateFence(Fence fence)
+    {
+        if (fence.fenceID >= fenceList.Count || fence.fenceID < 0)
+        {
+            Debug.LogWarning($"Invalid fence index! Got {fence.fenceID}.");
+            return;
+        }
+        fenceList[fence.fenceID] = fence;
+        OnSettingsChanged?.Invoke();
+    }
+
+    /// <summary>
     /// Removes the specified fence from the fence list.
     /// </summary>
     /// <param name="fenceIndex">Index of the fence to remove</param>
-    public void RemoveFence(int fenceIndex)
+    public void RemoveFence(Fence fence)
     {
-        if (fenceIndex >= fenceList.Count || fenceIndex < 0)
+        if (fence.fenceID >= fenceList.Count || fence.fenceID < 0)
         {
-            Debug.LogWarning($"Invalid fence index! Got {fenceIndex}.");
+            Debug.LogWarning($"Invalid fence index! Got {fence.fenceID}.");
             return;
         }
-        fenceList.RemoveAt(fenceIndex);
+        fenceList.RemoveAt(fence.fenceID);
         OnSettingsChanged?.Invoke();
     }
 
